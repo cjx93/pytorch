@@ -9,6 +9,14 @@ import matplotlib.pyplot as plt
 
 torch.manual_seed(7)
 
+class Layer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.h1 = nn.Linear(784,256)
+
+    def forward(self, x):
+        return self.h1(x)
+
 class Classifier(nn.Module):
     def __init__(self):
         super().__init__()
@@ -21,7 +29,7 @@ class Classifier(nn.Module):
         #         ('r3', nn.ReLU()),
         #         ('out', nn.Linear(64, 10)),
         #     ]))
-        self.h1 = nn.Linear(784, 256)
+        self.h1 = Layer()#nn.Linear(784, 256)
         self.h2 = nn.Linear(256, 128)
         self.h3 = nn.Linear(128, 64)
         self.fl = nn.Linear(64, 10)
@@ -77,6 +85,9 @@ def main():
     #optimizer = optim.Adam(model.parameters(), lr=0.003)
 
     train_losses, test_losses = [], []
+
+    print(model)
+    print(model.state_dict())
 
     for e in range(epoch, epochs):
         total_loss = 0.0
